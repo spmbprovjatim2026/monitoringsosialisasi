@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Sosialisasi SPMB Jatim</title>
+    <!-- Tailwind CSS untuk Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons untuk Ikon -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-50 font-sans pb-12">
+
+    <!-- Header -->
+    <header class="bg-blue-900 text-white p-6 md:p-10 shadow-lg rounded-b-3xl">
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-6">
+            <div class="bg-white p-3 rounded-2xl shadow-inner flex justify-center items-center w-20 h-20 shrink-0">
+                <img 
+                    src="https://images.weserv.nl/?url=upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Coat_of_arms_of_East_Java.svg/400px-Coat_of_arms_of_East_Java.svg.png" 
+                    alt="Logo Provinsi Jawa Timur" 
+                    class="h-full w-full object-contain drop-shadow-sm"
+                    onerror="this.onerror=null; this.src='https://drive.google.com/thumbnail?id=1Lod556eWqAhG6n8YmMDGaBspUDqhjGyF&sz=w500';"
+                />
+            </div>
+            <div class="text-center md:text-left">
+                <h1 class="text-2xl md:text-3xl font-bold mb-2">Monitoring Sosialisasi SPMB 2026</h1>
+                <p class="text-blue-200 text-sm md:text-base">SMA/SMK Negeri se-Jawa Timur | Dinas Pendidikan Provinsi Jawa Timur</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto mt-8 px-4">
+        <form id="monitoring-form" class="bg-white p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100">
+            
+            <!-- Notifications Container -->
+            <div id="error-container" class="hidden mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 items-start gap-3 rounded-r-lg">
+                <i data-lucide="alert-circle" class="shrink-0 mt-0.5 w-5 h-5"></i>
+                <p id="error-msg" class="font-medium"></p>
+            </div>
+            
+            <div id="success-container" class="hidden mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-800 items-start gap-3 rounded-r-lg">
+                <i data-lucide="check-circle" class="shrink-0 mt-0.5 w-5 h-5"></i>
+                <p id="success-msg" class="font-medium"></p>
+            </div>
+
+            <!-- Section 1: Identitas Wilayah & Sekolah -->
+            <div class="mb-10">
+                <h2 class="text-xl font-bold text-gray-800 border-b-2 border-blue-100 pb-2 mb-6 flex items-center gap-2">
+                    <i data-lucide="map-pin" class="text-blue-600"></i> Identitas Wilayah & Pelaksana
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pilihan Cabang Dinas Wilayah</label>
+                        <select id="cabang" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50">
+                            <option value="">-- Pilih Cabang Dinas --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Pilihan Kabupaten/Kota</label>
+                        <select id="kabupaten" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 disabled:opacity-50" disabled>
+                            <option value="">-- Pilih Kabupaten/Kota --</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">SMA/SMK Negeri Pelaksana Sosialisasi</label>
+                        <select id="sekolah" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-gray-50 disabled:opacity-50" disabled>
+                            <option value="">-- Pilih SMA/SMK Negeri --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Lokasi Sosialisasi -->
+            <div class="mb-10">
+                <h2 class="text-xl font-bold text-gray-800 border-b-2 border-blue-100 pb-2 mb-6 flex items-center gap-2">
+                    <i data-lucide="school" class="text-blue-600"></i> Lokasi Sasaran Sosialisasi
+                </h2>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nama SMP atau MTs Tempat Sosialisasi</label>
+                    <input id="smp" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Contoh: SMP Negeri 1 Surabaya atau MTsN 2 Malang">
+                    <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Satu SMP/MTs hanya dapat dilaporkan satu kali. Penulisan nama bebas.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Section 3: Upload Bukti -->
+            <div id="upload-section" class="hidden mb-8 p-6 bg-blue-50 rounded-xl border border-blue-100">
+                <h2 class="text-xl font-bold text-gray-800 border-b-2 border-blue-200 pb-2 mb-6 flex items-center gap-2">
+                    <i data-lucide="upload-cloud" class="text-blue-600"></i> Upload Bukti Sosialisasi
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Upload PDF -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                        <label class="block text-sm font-bold text-gray-800 mb-1">Daftar Hadir Sosialisasi</label>
+                        <p class="text-xs text-gray-500 mb-4">Format: PDF | Maksimal: 3 MB/file | Batas: 3 File</p>
+                        
+                        <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-6 hover:bg-gray-50 transition-all text-center">
+                            <input id="pdf-input" type="file" accept=".pdf" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed">
+                            <i data-lucide="file-text" class="mx-auto text-blue-400 mb-2 w-8 h-8"></i>
+                            <span class="text-sm font-semibold text-blue-600">Pilih File PDF</span>
+                        </div>
+                        <ul id="pdf-list" class="mt-4 space-y-2"></ul>
+                    </div>
+
+                    <!-- Upload Gambar -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                        <label class="block text-sm font-bold text-gray-800 mb-1">Dokumentasi Kegiatan</label>
+                        <p class="text-xs text-gray-500 mb-4">Format: JPG/PNG | Maksimal: 2 MB/file | Batas: 4 File</p>
+                        
+                        <div class="relative border-2 border-dashed border-gray-300 rounded-lg p-6 hover:bg-gray-50 transition-all text-center">
+                            <input id="img-input" type="file" accept=".jpg,.jpeg,.png" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed">
+                            <i data-lucide="image" class="mx-auto text-blue-400 mb-2 w-8 h-8"></i>
+                            <span class="text-sm font-semibold text-blue-600">Pilih Foto/Gambar</span>
+                        </div>
+                        <ul id="img-list" class="mt-4 space-y-2"></ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8">
+                <button id="submit-btn" type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all transform hover:-translate-y-1 flex justify-center items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                    Kirim Laporan Sosialisasi
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- State & Logic Scripts -->
+    <script>
+        // Inisialisasi ikon Lucide
+        lucide.createIcons();
+
+        // =======================================================================
+        // SETUP: GANTI STRING DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
+        // =======================================================================
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxmYL620c9qcqu4RBzzW9Z92b2p6X98Goj5hdCbvu61R3v8MdwQTwqWKl5rnHk7EXGB/exec';
+
+
+        // Helper: Konversi file menjadi format teks Base64 untuk dikirim via JSON
+        const getBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
+                    if ((encoded.length % 4) > 0) {
+                        encoded += '='.repeat(4 - (encoded.length % 4));
+                    }
+                    resolve({
+                        name: file.name,
+                        mimeType: file.type,
+                        base64: encoded
+                    });
+                };
+                reader.onerror = error => reject(error);
+            });
+        };
+
+        // --- DATA SOURCE ---
+        const CABANG_DINAS = {
+            "WIL. SIDOARJO": ["KAB. SIDOARJO", "KOTA SURABAYA"],
+            "WIL. MALANG": ["KOTA MALANG", "KOTA BATU"],
+            "WIL. KAB. GRESIK": ["KAB. GRESIK"],
+            "WIL. KAB. JOMBANG": ["KAB. JOMBANG"],
+            "WIL. KAB. LAMONGAN": ["KAB. LAMONGAN"],
+            "WIL. BOJONEGORO": ["KAB. BOJONEGORO", "KAB. TUBAN"],
+            "WIL. MADIUN": ["KAB. MADIUN", "KOTA MADIUN", "KAB. NGAWI"],
+            "WIL. PONOROGO": ["KAB. PONOROGO", "KAB. MAGETAN"],
+            "WIL. TULUNGAGUNG": ["KAB. TULUNGAGUNG", "KAB. TRENGGALEK"],
+            "WIL. KAB. PACITAN": ["KAB. PACITAN"],
+            "WIL. KAB. NGANJUK": ["KAB. NGANJUK"],
+            "WIL. KAB. MALANG": ["KAB. MALANG"],
+            "WIL. KAB DAN KOTA MOJOKERTO": ["KAB. MOJOKERTO", "KOTA MOJOKERTO"],
+            "WIL. BLITAR": ["KAB. BLITAR", "KOTA BLITAR"],
+            "WIL. KEDIRI": ["KAB. KEDIRI", "KOTA KEDIRI"],
+            "WIL. PROBOLINGGO": ["KAB. PROBOLINGGO", "KOTA PROBOLINGGO"],
+            "WIL. PASURUAN": ["KAB. PASURUAN", "KOTA PASURUAN"],
+            "WIL. JEMBER": ["KAB. JEMBER", "KAB. LUMAJANG"],
+            "WIL. BONDOWOSO": ["KAB. BONDOWOSO", "KAB. SITUBONDO"],
+            "WIL. KAB. BANYUWANGI": ["KAB. BANYUWANGI"],
+            "WIL. KAB. BANGKALAN": ["KAB. BANGKALAN"],
+            "WIL. KAB. SAMPANG": ["KAB. SAMPANG"],
+            "WIL. KAB. PAMEKASAN": ["KAB. PAMEKASAN"],
+            "WIL. KAB. SUMENEP": ["KAB. SUMENEP"]
+        };
+
+        const RAW_SCHOOL_DATA = `SMA NEGERI 1 AMBUNTEN SUMENEP	20529967	SMA	Kab. Sumenep
+SMA NEGERI 1 ARJASA SUMENEP	20529968	SMA	Kab. Sumenep
+SMA NEGERI 1 AROSBAYA BANGKALAN	20531147	SMA	Kab. Bangkalan
+SMA NEGERI 1 BABAT	20506292	SMA	Kab. Lamongan
+SMA NEGERI 1 BANCAR TUBAN	20546977	SMA	Kab. Tuban
+SMA NEGERI 1 BANGIL	20519303	SMA	Kab. Pasuruan
+SMA NEGERI 1 BANGILAN TUBAN	20539031	SMA	Kab. Tuban
+SMA NEGERI 1 BANGKALAN	20531146	SMA	Kab. Bangkalan
+SMA NEGERI 1 BANYUPUTIH	69888816	SMA	Kab. Situbondo
+SMA NEGERI 1 BAURENO BOJONEGORO	20541228	SMA	Kab. Bojonegoro
+SMA NEGERI 1 BENDUNGAN	20542505	SMA	Kab. Trenggalek
+SMA NEGERI 1 BERBEK NGANJUK	20538330	SMA	Kab. Nganjuk
+SMA NEGERI 1 BLEGA BANGKALAN	20531145	SMA	Kab. Bangkalan
+SMA NEGERI 1 BLULUK LAMONGAN	20506323	SMA	Kab. Lamongan
+SMA NEGERI 1 BUBULAN BOJONEGORO	20573214	SMA	Kab. Bojonegoro
+SMA NEGERI 1 DRINGU	20520024	SMA	Kab. Probolinggo
+SMA NEGERI 1 GALIS PAMEKASAN	20527158	SMA	Kab. Pamekasan
+SMA NEGERI 1 GAPURA SUMENEP	20529970	SMA	Kab. Sumenep
+SMA NEGERI 1 GONDANG NGANJUK	20538393	SMA	Kab. Nganjuk
+SMA NEGERI 1 GRABAGAN TUBAN	20546556	SMA	Kab. Tuban
+SMA NEGERI 1 GROGOL KABUPATEN KEDIRI	20511961	SMA	Kab. Kediri
+SMA NEGERI 1 GURAH KABUPATEN KEDIRI	20511960	SMA	Kab. Kediri
+SMA NEGERI 1 JOMBANG	20503415	SMA	Kab. Jombang
+SMA NEGERI 1 KALIANGET SUMENEP	20529972	SMA	Kab. Sumenep
+SMA NEGERI 1 KALITIDU BOJONEGORO	20504488	SMA	Kab. Bojonegoro
+SMA NEGERI 1 KAMAL BANGKALAN	20531130	SMA	Kab. Bangkalan
+SMA NEGERI 1 KANDANGAN KABUPATEN KEDIRI	20511959	SMA	Kab. Kediri
+SMA NEGERI 1 KANDAT KABUPATEN KEDIRI	20511958	SMA	Kab. Kediri
+SMA NEGERI 1 KARANGBINANGUN	20506324	SMA	Kab. Lamongan
+SMA NEGERI 1 KASIMAN BOJONEGORO	20541240	SMA	Kab. Bojonegoro
+SMA NEGERI 1 KEDUNGADEM BOJONEGORO	20541241	SMA	Kab. Bojonegoro
+SMA NEGERI 1 KEDUNGPRING	20506325	SMA	Kab. Lamongan
+SMA NEGERI 1 KEMBANGBAHU	20506326	SMA	Kab. Lamongan
+SMA NEGERI 1 KENDURUAN TUBAN	20554398	SMA	Kab. Tuban
+SMA NEGERI 1 KEPOHBARU BOJONEGORO	20577218	SMA	Kab. Bojonegoro
+SMA NEGERI 1 KEREK TUBAN	20546978	SMA	Kab. Tuban
+SMA NEGERI 1 KERTOSONO NGANJUK	20538394	SMA	Kab. Nganjuk
+SMA NEGERI 1 KOKOP BANGKALAN	69786941	SMA	Kab. Bangkalan
+SMA NEGERI 1 KOTA KEDIRI	20534389	SMA	Kota Kediri
+SMA NEGERI 1 KOTA MALANG	20533660	SMA	Kota Malang
+SMA NEGERI 1 KURIPAN	20562423	SMA	Kab. Probolinggo
+SMA NEGERI 1 KWANYAR BANGKALAN	20531186	SMA	Kab. Bangkalan
+SMA NEGERI 1 LAMONGAN	20506327	SMA	Kab. Lamongan
+SMA NEGERI 1 LENTENG SUMENEP	20529964	SMA	Kab. Sumenep
+SMA NEGERI 1 LOCERET NGANJUK	20538322	SMA	Kab. Nganjuk
+SMA NEGERI 1 MALO	69881365	SMA	Kab. Bojonegoro
+SMA NEGERI 1 MANTUP LAMONGAN	20506328	SMA	Kab. Lamongan
+SMA NEGERI 1 MARON	20549428	SMA	Kab. Probolinggo
+SMA NEGERI 1 MASALEMBU SUMENEP	20529963	SMA	Kab. Sumenep
+SMA NEGERI 1 MOJO KABUPATEN KEDIRI	20511956	SMA	Kab. Kediri
+SMA NEGERI 1 MONTONG TUBAN	20554399	SMA	Kab. Tuban
+SMA NEGERI 1 NGADILUWIH KABUPATEN KEDIRI	20511955	SMA	Kab. Kediri
+SMA NEGERI 1 NGANJUK	20538321	SMA	Kab. Nganjuk
+SMA NEGERI 1 NGIMBANG	20506343	SMA	Kab. Lamongan
+SMA NEGERI 1 NGRAHO BOJONEGORO	20504477	SMA	Kab. Bojonegoro
+SMA NEGERI 1 NGRONGGOT NGANJUK	20539811	SMA	Kab. Nganjuk
+SMA NEGERI 1 PACE NGANJUK	20538323	SMA	Kab. Nganjuk
+SMA NEGERI 1 PACIRAN LAMONGAN	20506291	SMA	Kab. Lamongan
+SMA NEGERI 1 PADANGAN BOJONEGORO	20504487	SMA	Kab. Bojonegoro
+SMA NEGERI 1 PADEMAWU PAMEKASAN	20527231	SMA	Kab. Pamekasan
+SMA NEGERI 1 PAKONG PAMEKASAN	20527232	SMA	Kab. Pamekasan
+SMA NEGERI 1 PAPAR KABUPATEN KEDIRI	20511954	SMA	Kab. Kediri
+SMA NEGERI 1 PARE KABUPATEN KEDIRI	20511953	SMA	Kab. Kediri
+SMA NEGERI 1 PARENGAN TUBAN	20505014	SMA	Kab. Tuban
+SMA NEGERI 1 PASURUAN	20535464	SMA	Kota Pasuruan
+SMA NEGERI 1 PATIANROWO NGANJUK	20538324	SMA	Kab. Nganjuk
+SMA NEGERI 1 PLEMAHAN KABUPATEN KEDIRI	20511952	SMA	Kab. Kediri
+SMA NEGERI 1 PLOSOKLATEN KABUPATEN KEDIRI	20511951	SMA	Kab. Kediri
+SMA NEGERI 1 PLUMPANG TUBAN	20554395	SMA	Kab. Tuban
+SMA NEGERI 1 PRAMBON NGANJUK	20538395	SMA	Kab. Nganjuk
+SMA NEGERI 1 PUNCU KABUPATEN KEDIRI	20511950	SMA	Kab. Kediri
+SMA NEGERI 1 PURWOASRI KABUPATEN KEDIRI	20511949	SMA	Kab. Kediri
+SMA NEGERI 1 REJOSO NGANJUK	20538396	SMA	Kab. Nganjuk
+SMA NEGERI 1 RENGEL TUBAN	20505013	SMA	Kab. Tuban
+SMA NEGERI 1 SEKARAN	20506240	SMA	Kab. Lamongan
+SMA NEGERI 1 SENORI TUBAN	20566350	SMA	Kab. Tuban
+SMA NEGERI 1 SINGGAHAN TUBAN	20505011	SMA	Kab. Tuban
+SMA NEGERI 1 SOKO TUBAN	20539029	SMA	Kab. Tuban
+SMA NEGERI 1 SUGIHWARAS BOJONEGORO	20504476	SMA	Kab. Bojonegoro
+SMA NEGERI 1 SUKODADI LAMONGAN	20506255	SMA	Kab. Lamongan
+SMA NEGERI 1 SUKOMORO NGANJUK	20538328	SMA	Kab. Nganjuk
+SMA NEGERI 1 SUMBERASIH	20575418	SMA	Kab. Probolinggo
+SMA NEGERI 1 SUMBERREJO BOJONEGORO	20541242	SMA	Kab. Bojonegoro
+SMA NEGERI 1 SUMENEP	20529954	SMA	Kab. Sumenep
+SMA NEGERI 1 TAMBAKBOYO TUBAN	20505010	SMA	Kab. Tuban
+SMA NEGERI 1 TAMBAKREJO BOJONEGORO	20541243	SMA	Kab. Bojonegoro
+SMA NEGERI 1 TANJUNGANOM NGANJUK	20538325	SMA	Kab. Nganjuk
+SMA NEGERI 1 TANJUNGBUMI BANGKALAN	20531253	SMA	Kab. Bangkalan
+SMA NEGERI 1 TRENGGALEK	20542500	SMA	Kab. Trenggalek
+SMA NEGERI 1 TUBAN	20505009	SMA	Kab. Tuban
+SMA NEGERI 1 WARU PAMEKASAN	20527235	SMA	Kab. Pamekasan
+SMA NEGERI 1 WATES KABUPATEN KEDIRI	20511964	SMA	Kab. Kediri
+SMA NEGERI 10 KOTA MALANG	20533661	SMA	Kota Malang
+SMA NEGERI 2 BANGKALAN	20531228	SMA	Kab. Bangkalan
+SMA NEGERI 2 JOMBANG	20503414	SMA	Kab. Jombang
+SMA NEGERI 2 KOTA KEDIRI	20534388	SMA	Kota Kediri
+SMA NEGERI 2 KOTA MALANG	20533664	SMA	Kota Malang
+SMA NEGERI 2 KRAKSAAN	69958331	SMA	Kab. Probolinggo
+SMA NEGERI 2 LAMONGAN	20506254	SMA	Kab. Lamongan
+SMA NEGERI 2 NGANJUK	20538326	SMA	Kab. Nganjuk
+SMA NEGERI 2 PARE KABUPATEN KEDIRI	20511965	SMA	Kab. Kediri
+SMA NEGERI 2 PASURUAN	20535465	SMA	Kota Pasuruan
+SMA NEGERI 2 SUMENEP	20529955	SMA	Kab. Sumenep
+SMA NEGERI 2 TARUNA BHAYANGKARA JAWA TIMUR	20525600	SMA	Kab. Banyuwangi
+SMA NEGERI 2 TARUNA PAMONG PRAJA JAWA TIMUR	20504478	SMA	Kab. Bojonegoro
+SMA NEGERI 2 TRENGGALEK	20542503	SMA	Kab. Trenggalek
+SMA NEGERI 2 TUBAN	20505008	SMA	Kab. Tuban
+SMA Negeri 3	69947051	SMA	Kota Batu
+SMA NEGERI 3 BANGKALAN	20531227	SMA	Kab. Bangkalan
+SMA NEGERI 3 JOMBANG	20503413	SMA	Kab. Jombang
+SMA NEGERI 3 KOTA KEDIRI	20534387	SMA	Kota Kediri
+SMA NEGERI 3 KOTA MALANG	20533665	SMA	Kota Malang
+SMA NEGERI 3 LAMONGAN	20549024	SMA	Kab. Lamongan
+SMA NEGERI 3 NGANJUK	20538327	SMA	Kab. Nganjuk
+SMA NEGERI 3 PASURUAN	20535475	SMA	Kota Pasuruan
+SMA NEGERI 3 SUMENEP	20573250	SMA	Kab. Sumenep
+SMA NEGERI 3 TUBAN	20505007	SMA	Kab. Tuban
+SMA NEGERI 4 BANGKALAN	20560315	SMA	Kab. Bangkalan
+SMA NEGERI 4 KOTA KEDIRI	20534386	SMA	Kota Kediri
+SMA NEGERI 4 KOTA MALANG	20533667	SMA	Kota Malang
+SMA NEGERI 4 PASURUAN	20535474	SMA	Kota Pasuruan
+SMA NEGERI 4 TUBAN	20539030	SMA	Kab. Tuban
+SMA NEGERI 5 KOTA MALANG	20533653	SMA	Kota Malang
+SMA NEGERI 5 PAMEKASAN	20527251	SMA	Kab. Pamekasan
+SMA NEGERI 5 TARUNA BRAWIJAYA JAWA TIMUR	20534385	SMA	Kota Kediri
+SMA NEGERI 5 TUBAN	20554397	SMA	Kab. Tuban
+SMA NEGERI 6 KOTA KEDIRI	20534384	SMA	Kota Kediri
+SMA NEGERI 6 KOTA MALANG	20533652	SMA	Kota Malang
+SMA NEGERI 7 KOTA KEDIRI	20534383	SMA	Kota Kediri
+SMA NEGERI 7 KOTA MALANG	20533639	SMA	Kota Malang
+SMA NEGERI 8 KOTA KEDIRI	20534382	SMA	Kota Kediri
+SMA NEGERI 8 KOTA MALANG	20533640	SMA	Kota Malang
+SMA NEGERI 9 KOTA MALANG	20533641	SMA	Kota Malang
+SMA NEGERI BANDARKEDUNGMULYO	20503412	SMA	Kab. Jombang
+SMA NEGERI BARENG	20503411	SMA	Kab. Jombang
+SMA NEGERI JATIROGO	20505015	SMA	Kab. Tuban
+SMA NEGERI JOGOROTO	20503416	SMA	Kab. Jombang
+SMA NEGERI KABUH	20503410	SMA	Kab. Jombang
+SMA NEGERI KESAMBEN	20503409	SMA	Kab. Jombang
+SMA NEGERI MODEL TERPADU BOJONEGORO	20574581	SMA	Kab. Bojonegoro
+SMA NEGERI MOJOAGUNG	20503408	SMA	Kab. Jombang
+SMA NEGERI NGORO	20503407	SMA	Kab. Jombang
+SMA NEGERI PLANDAAN	20540304	SMA	Kab. Jombang
+SMA NEGERI PLOSO	20503406	SMA	Kab. Jombang
+SMA NEGERI TARUNA MADANI JAWA TIMUR	70051534	SMA	Kab. Pasuruan
+SMA NEGERI TARUNA NALA JAWA TIMUR	69964214	SMA	Kota Malang
+SMAN 1	20534748	SMA	Kota Mojokerto
+SMAN 1 ASEMBAGUS	20522655	SMA	Kab. Situbondo
+SMAN 1 BABADAN	20510135	SMA	Kab. Ponorogo
+SMAN 1 BADEGAN	20510134	SMA	Kab. Ponorogo
+SMAN 1 BALEN	20554882	SMA	Kab. Bojonegoro
+SMAN 1 BALONG	20510133	SMA	Kab. Ponorogo
+SMAN 1 BALONGPANGGANG	69772636	SMA	Kab. Gresik
+SMAN 1 BANGOREJO	20525872	SMA	Kab. Banyuwangi
+SMAN 1 BANGSAL	20502699	SMA	Kab. Mojokerto
+SMAN 1 BANTARAN	20562203	SMA	Kab. Probolinggo
+SMAN 1 BANTUR	20517728	SMA	Kab. Malang
+SMAN 1 BANYUATES	69855413	SMA	Kab. Sampang
+SMAN 1 BANYUWANGI	20525863	SMA	Kab. Banyuwangi
+SMAN 1 BARAT	20509321	SMA	Kab. Magetan
+SMAN 1 BATU	20536817	SMA	Kota Batu
+SMAN 1 BESUK	20549475	SMA	Kab. Probolinggo
+SMAN 1 BESUKI	20554535	SMA	Kab. Situbondo
+SMAN 1 BLITAR	20535050	SMA	Kota Blitar
+SMAN 1 BLUTO	20529969	SMA	Kab. Sumenep
+SMAN 1 BOJONEGORO	20504500	SMA	Kab. Bojonegoro
+SMAN 1 BONDOWOSO	20521730	SMA	Kab. Bondowoso
+SMAN 1 BOYOLANGU	20515450	SMA	Kab. Tulungagung
+SMAN 1 BULULAWANG	20549465	SMA	Kab. Malang
+SMAN 1 BUNGKAL	20510144	SMA	Kab. Ponorogo
+SMAN 1 CAMPURDARAT	20515434	SMA	Kab. Tulungagung
+SMAN 1 CERME	20500481	SMA	Kab. Gresik
+SMAN 1 CLURING	20525862	SMA	Kab. Banyuwangi
+SMAN 1 DAGANGAN	20507717	SMA	Kab. Madiun
+SMAN 1 DAMPIT	20517738	SMA	Kab. Malang
+SMAN 1 DANDER	20541229	SMA	Kab. Bojonegoro
+SMAN 1 DAWARBLANDONG	20502720	SMA	Kab. Mojokerto
+SMAN 1 DOLOPO	20507725	SMA	Kab. Madiun
+SMAN 1 DONGKO	20542495	SMA	Kab. Trenggalek
+SMAN 1 DRIYOREJO	20500480	SMA	Kab. Gresik
+SMAN 1 DUKUN	69896282	SMA	Kab. Gresik
+SMAN 1 DURENAN	20542496	SMA	Kab. Trenggalek
+SMAN 1 GADING	20520023	SMA	Kab. Probolinggo
+SMAN 1 GAMBIRAN	20525853	SMA	Kab. Banyuwangi
+SMAN 1 GARUM	20514351	SMA	Kab. Blitar
+SMAN 1 GAYAM	20529971	SMA	Kab. Sumenep
+SMAN 1 GEDANGAN	20501862	SMA	Kab. Sidoarjo
+SMAN 1 GEDEG	20502721	SMA	Kab. Mojokerto
+SMAN 1 GEGER	20507726	SMA	Kab. Madiun
+SMAN 1 GENDING	20546533	SMA	Kab. Probolinggo
+SMAN 1 GENTENG	20525854	SMA	Kab. Banyuwangi
+SMAN 1 GIRI	20525855	SMA	Kab. Banyuwangi
+SMAN 1 GLAGAH	20525856	SMA	Kab. Banyuwangi
+SMAN 1 GONDANG	20502722	SMA	Kab. Mojokerto
+SMAN 1 GONDANG	20515433	SMA	Kab. Tulungagung
+SMAN 1 GONDANG	20504489	SMA	Kab. Bojonegoro
+SMAN 1 GONDANGLEGI	20517729	SMA	Kab. Malang
+SMAN 1 GONDANGWETAN	20519302	SMA	Kab. Pasuruan
+SMAN 1 GRATI	20519301	SMA	Kab. Pasuruan
+SMAN 1 GRESIK	20500479	SMA	Kab. Gresik
+SMAN 1 JATIROTO	20520804	SMA	Kab. Lumajang
+SMAN 1 JEMBER	20523844	SMA	Kab. Jember
+SMAN 1 JENANGAN	20510145	SMA	Kab. Ponorogo
+SMAN 1 JETIS	20510156	SMA	Kab. Ponorogo
+SMAN 1 JIWAN	20507734	SMA	Kab. Madiun
+SMAN 1 JOGOROGO	20508472	SMA	Kab. Ngawi
+SMAN 1 KADEMANGAN	20514350	SMA	Kab. Blitar
+SMAN 1 KALIDAWIR	20515432	SMA	Kab. Tulungagung
+SMAN 1 KAMPAK	20542506	SMA	Kab. Trenggalek
+SMAN 1 KAPONGAN	20522643	SMA	Kab. Situbondo
+SMAN 1 KARANGAN	20542497	SMA	Kab. Trenggalek
+SMAN 1 KARANGJATI	20508471	SMA	Kab. Ngawi
+SMAN 1 KARANGREJO	20537288	SMA	Kab. Tulungagung
+SMAN 1 KARAS	20509320	SMA	Kab. Magetan
+SMAN 1 KAUMAN	20515431	SMA	Kab. Tulungagung
+SMAN 1 KAUMAN	20549506	SMA	Kab. Ponorogo
+SMAN 1 KAWEDANAN	20509319	SMA	Kab. Magetan
+SMAN 1 KEBOMAS	20537011	SMA	Kab. Gresik
+SMAN 1 KEDAMEAN	20500478	SMA	Kab. Gresik
+SMAN 1 KEDUNGDUNG	20528663	SMA	Kab. Sampang
+SMAN 1 KEDUNGGALAR	20508470	SMA	Kab. Ngawi
+SMAN 1 KEDUNGWARU	20515430	SMA	Kab. Tulungagung
+SMAN 1 KEJAYAN	20519300	SMA	Kab. Pasuruan
+SMAN 1 KENCONG	20523845	SMA	Kab. Jember
+SMAN 1 KENDAL	20508469	SMA	Kab. Ngawi
+SMAN 1 KEPANJEN	20517730	SMA	Kab. Malang
+SMAN 1 KESAMBEN	20514349	SMA	Kab. Blitar
+SMAN 1 KETAPANG	20549262	SMA	Kab. Sampang
+SMAN 1 KRAKSAAN	20520022	SMA	Kab. Probolinggo
+SMAN 1 KREMBUNG	20501846	SMA	Kab. Sidoarjo
+SMAN 1 KRIAN	20501784	SMA	Kab. Sidoarjo
+SMAN 1 KRUCIL	20558304	SMA	Kab. Probolinggo
+SMAN 1 KUNIR	20521457	SMA	Kab. Lumajang
+SMAN 1 KUTOREJO	20502723	SMA	Kab. Mojokerto
+SMAN 1 KWADUNGAN	20539276	SMA	Kab. Ngawi
+SMAN 1 LAWANG	20517739	SMA	Kab. Malang
+SMAN 1 LECES	20520021	SMA	Kab. Probolinggo
+SMAN 1 LUMAJANG	20520821	SMA	Kab. Lumajang
+SMAN 1 LUMBANG	69773548	SMA	Kab. Pasuruan
+SMAN 1 MADIUN	20534125	SMA	Kota Madiun
+SMAN 1 MAGETAN	20509318	SMA	Kab. Magetan
+SMAN 1 MANYAR	20500477	SMA	Kab. Gresik
+SMAN 1 MAOSPATI	20509317	SMA	Kab. Magetan
+SMAN 1 MEJAYAN	20507733	SMA	Kab. Madiun
+SMAN 1 MENGANTI	20500476	SMA	Kab. Gresik
+SMAN 1 MOJOSARI	20502724	SMA	Kab. Mojokerto
+SMAN 1 MUNCAR	20525858	SMA	Kab. Banyuwangi
+SMAN 1 MUNJUNGAN	20542498	SMA	Kab. Trenggalek
+SMAN 1 NAWANGAN	20511007	SMA	Kab. Pacitan
+SMAN 1 NGADIROJO	20511006	SMA	Kab. Pacitan
+SMAN 1 NGANTANG	20517731	SMA	Kab. Malang
+SMAN 1 NGAWI	20508480	SMA	Kab. Ngawi
+SMAN 1 NGLAMES	20507732	SMA	Kab. Madiun
+SMAN 1 NGORO	20502725	SMA	Kab. Mojokerto
+SMAN 1 NGRAMBE	20508481	SMA	Kab. Ngawi
+SMAN 1 NGRAYUN	20510154	SMA	Kab. Ponorogo
+SMAN 1 NGUNUT	20515429	SMA	Kab. Tulungagung
+SMAN 1 OMBEN	69901424	SMA	Kab. Sampang
+SMAN 1 PACET	20552007	SMA	Kab. Mojokerto
+SMAN 1 PACITAN	20511011	SMA	Kab. Pacitan
+SMAN 1 PAGAK	20517732	SMA	Kab. Malang
+SMAN 1 PAITON	20551645	SMA	Kab. Probolinggo
+SMAN 1 PAKEL	20515428	SMA	Kab. Tulungagung
+SMAN 1 PAMEKASAN	20527233	SMA	Kab. Pamekasan
+SMAN 1 PANARUKAN	20522642	SMA	Kab. Situbondo
+SMAN 1 PANDAAN	20519299	SMA	Kab. Pasuruan
+SMAN 1 PANGGUL	20542507	SMA	Kab. Trenggalek
+SMAN 1 PANJI	20522641	SMA	Kab. Situbondo
+SMAN 1 PARANG	20509316	SMA	Kab. Magetan
+SMAN 1 PASIRIAN	20521458	SMA	Kab. Lumajang
+SMAN 1 PLAOSAN	20509315	SMA	Kab. Magetan
+SMAN 1 PONGGOK	20514348	SMA	Kab. Blitar
+SMAN 1 PONOROGO	20510150	SMA	Kab. Ponorogo
+SMAN 1 PORONG	20501722	SMA	Kab. Sidoarjo
+SMAN 1 PRAJEKAN	20521714	SMA	Kab. Bondowoso
+SMAN 1 PROBOLINGGO	20536288	SMA	Kota Probolinggo
+SMAN 1 PRONOJIWO	20521459	SMA	Kab. Lumajang
+SMAN 1 PUJER	20521745	SMA	Kab. Bondowoso
+SMAN 1 PULE	20542499	SMA	Kab. Trenggalek
+SMAN 1 PULUNG	20510153	SMA	Kab. Ponorogo
+SMAN 1 PURI	20502726	SMA	Kab. Mojokerto
+SMAN 1 PURWOSARI	20519298	SMA	Kab. Pasuruan
+SMAN 1 REJOTANGAN	20515427	SMA	Kab. Tulungagung
+SMAN 1 ROGOJAMPI	20525861	SMA	Kab. Banyuwangi
+SMAN 1 SAMBIT	20510152	SMA	Kab. Ponorogo
+SMAN 1 SAMPANG	20528662	SMA	Kab. Sampang
+SMAN 1 SAMPUNG	20510151	SMA	Kab. Ponorogo
+SMAN 1 SANGKAPURA	20500475	SMA	Kab. Gresik
+SMAN 1 SAPEKEN	20529962	SMA	Kab. Sumenep
+SMAN 1 SARADAN	20507730	SMA	Kab. Madiun
+SMAN 1 SIDAYU	20500474	SMA	Kab. Gresik
+SMAN 1 SIDOARJO	20501706	SMA	Kab. Sidoarjo
+SMAN 1 SINE	20508482	SMA	Kab. Ngawi
+SMAN 1 SINGOSARI	20517733	SMA	Kab. Malang
+SMAN 1 SITUBONDO	20522640	SMA	Kab. Situbondo
+SMAN 1 SLAHUNG	20510149	SMA	Kab. Ponorogo
+SMAN 1 SOOKO	20502727	SMA	Kab. Mojokerto
+SMAN 1 SRENGAT	20514347	SMA	Kab. Blitar
+SMAN 1 SRESEH	20549199	SMA	Kab. Sampang
+SMAN 1 SUBOH	20522639	SMA	Kab. Situbondo
+SMAN 1 SUKAPURA	20546534	SMA	Kab. Probolinggo
+SMAN 1 SUKOMORO	20509314	SMA	Kab. Magetan
+SMAN 1 SUKOSARI	20521731	SMA	Kab. Bondowoso
+SMAN 1 SUMBER	20562211	SMA	Kab. Probolinggo
+SMAN 1 SUMBERMANJING	20517734	SMA	Kab. Malang
+SMAN 1 SUMBERPUCUNG	20517735	SMA	Kab. Malang
+SMAN 1 SURABAYA	20532242	SMA	Kota Surabaya
+SMAN 1 SUTOJAYAN	20551724	SMA	Kab. Blitar
+SMAN 1 TALUN	20514344	SMA	Kab. Blitar
+SMAN 1 TAMAN	20501705	SMA	Kab. Sidoarjo
+SMAN 1 TANGGUL	20523825	SMA	Kab. Jember
+SMAN 1 TAPEN	20521713	SMA	Kab. Bondowoso
+SMAN 1 TARIK	20501704	SMA	Kab. Sidoarjo
+SMAN 1 TEGALDLIMO	20525587	SMA	Kab. Banyuwangi
+SMAN 1 TEGALOMBO	20511004	SMA	Kab. Pacitan
+SMAN 1 TEMPEH	20521460	SMA	Kab. Lumajang
+SMAN 1 TENGGARANG	20521712	SMA	Kab. Bondowoso
+SMAN 1 TIRIS	20548655	SMA	Kab. Probolinggo
+SMAN 1 TONGAS	20551651	SMA	Kab. Probolinggo
+SMAN 1 TORJUN	20528661	SMA	Kab. Sampang
+SMAN 1 TOSARI	20570413	SMA	Kab. Pasuruan
+SMAN 1 TRAWAS	20502728	SMA	Kab. Mojokerto
+SMAN 1 TUGU	20542501	SMA	Kab. Trenggalek
+SMAN 1 TULUNGAGUNG	69775579	SMA	Kab. Tulungagung
+SMAN 1 TUMPANG	20517736	SMA	Kab. Malang
+SMAN 1 TUREN	20517737	SMA	Kab. Malang
+SMAN 1 WARU	20501703	SMA	Kab. Sidoarjo
+SMAN 1 WIDODAREN	20508493	SMA	Kab. Ngawi
+SMAN 1 WONGSOREJO	20525599	SMA	Kab. Banyuwangi
+SMAN 1 WONOAYU	20501698	SMA	Kab. Sidoarjo
+SMAN 1 WRINGINANOM	20500473	SMA	Kab. Gresik
+SMAN 1 WUNGU	20507729	SMA	Kab. Madiun
+SMAN 1 YOSOWILANGUN	20521461	SMA	Kab. Lumajang
+SMAN 10 SURABAYA	20532243	SMA	Kota Surabaya
+SMAN 11 SURABAYA	20532244	SMA	Kota Surabaya
+SMAN 12 SURABAYA	20532245	SMA	Kota Surabaya
+SMAN 13 SURABAYA	20532246	SMA	Kota Surabaya
+SMAN 14 SURABAYA	20532238	SMA	Kota Surabaya
+SMAN 15 SURABAYA	20532237	SMA	Kota Surabaya
+SMAN 16 SURABAYA	20532236	SMA	Kota Surabaya
+SMAN 17 SURABAYA	20532217	SMA	Kota Surabaya
+SMAN 18 SURABAYA	20532218	SMA	Kota Surabaya
+SMAN 19 SURABAYA	20532219	SMA	Kota Surabaya
+SMAN 2	20534749	SMA	Kota Mojokerto
+SMAN 2 BATU	20536818	SMA	Kota Batu
+SMAN 2 BLITAR	20535051	SMA	Kota Blitar
+SMAN 2 BONDOWOSO	20521711	SMA	Kab. Bondowoso
+SMAN 2 JEMBER	20523847	SMA	Kab. Jember
+SMAN 2 KARANGAN	20542502	SMA	Kab. Trenggalek
+SMAN 2 LUMAJANG	20520820	SMA	Kab. Lumajang
+SMAN 2 MADIUN	20534124	SMA	Kota Madiun
+SMAN 2 MAGETAN	20509322	SMA	Kab. Magetan
+SMAN 2 MEJAYAN	20507728	SMA	Kab. Madiun
+SMAN 2 NGADIROJO	20511002	SMA	Kab. Pacitan
+SMAN 2 NGAWI	20508492	SMA	Kab. Ngawi
+SMAN 2 PACITAN	20511010	SMA	Kab. Pacitan
+SMAN 2 PAMEKASAN	20527236	SMA	Kab. Pamekasan
+SMAN 2 PONOROGO	20510147	SMA	Kab. Ponorogo
+SMAN 2 PROBOLINGGO	20536297	SMA	Kota Probolinggo
+SMAN 2 SAMPANG	20528660	SMA	Kab. Sampang
+SMAN 2 SIDOARJO	20501702	SMA	Kab. Sidoarjo
+SMAN 2 SITUBONDO	20522638	SMA	Kab. Situbondo
+SMAN 2 SURABAYA	20532230	SMA	Kota Surabaya
+SMAN 2 TANGGUL	20523848	SMA	Kab. Jember
+SMAN 20 SURABAYA	20532231	SMA	Kota Surabaya
+SMAN 21 SURABAYA	20532232	SMA	Kota Surabaya
+SMAN 22 SURABAYA	20532233	SMA	Kota Surabaya
+SMAN 3	20534750	SMA	Kota Mojokerto
+SMAN 3 BLITAR	20535052	SMA	Kota Blitar
+SMAN 3 BOJONEGORO	20504479	SMA	Kab. Bojonegoro
+SMAN 3 BONDOWOSO	20521710	SMA	Kab. Bondowoso
+SMAN 3 JEMBER	20523836	SMA	Kab. Jember
+SMAN 3 LUMAJANG	20520819	SMA	Kab. Lumajang
+SMAN 3 MAGETAN	20509323	SMA	Kab. Magetan
+SMAN 3 PAMEKASAN	20527237	SMA	Kab. Pamekasan
+SMAN 3 PONOROGO	20510146	SMA	Kab. Ponorogo
+SMAN 3 PROBOLINGGO	20536296	SMA	Kota Probolinggo
+SMAN 3 SAMPANG	20528659	SMA	Kab. Sampang
+SMAN 3 SIDOARJO	20501701	SMA	Kab. Sidoarjo
+SMAN 3 SURABAYA	20532235	SMA	Kota Surabaya
+SMAN 3 TARUNA ANGKASA JAWA TIMUR	20534122	SMA	Kota Madiun
+SMAN 4 BLITAR	20574675	SMA	Kota Blitar
+SMAN 4 BOJONEGORO	20504480	SMA	Kab. Bojonegoro
+SMAN 4 JEMBER	20523826	SMA	Kab. Jember
+SMAN 4 MADIUN	20534121	SMA	Kota Madiun
+SMAN 4 PAMEKASAN	20527238	SMA	Kab. Pamekasan
+SMAN 4 PROBOLINGGO	20536295	SMA	Kota Probolinggo
+SMAN 4 SAMPANG	20566349	SMA	Kab. Sampang
+SMAN 4 SIDOARJO	20501700	SMA	Kab. Sidoarjo
+SMAN 4 SURABAYA	20532247	SMA	Kota Surabaya
+SMAN 5 JEMBER	20523827	SMA	Kab. Jember
+SMAN 5 MADIUN	20534120	SMA	Kota Madiun
+SMAN 5 SURABAYA	20532248	SMA	Kota Surabaya
+SMAN 6 MADIUN	20534119	SMA	Kota Madiun
+SMAN 6 SURABAYA	20532260	SMA	Kota Surabaya
+SMAN 7 SURABAYA	20532261	SMA	Kota Surabaya
+SMAN 8 SURABAYA	20532262	SMA	Kota Surabaya
+SMAN 9 SURABAYA	20532263	SMA	Kota Surabaya
+SMAN AMBULU	20523828	SMA	Kab. Jember
+SMAN ARJASA	20523843	SMA	Kab. Jember
+SMAN BALUNG	20523835	SMA	Kab. Jember
+SMAN CANDIPURO	20520818	SMA	Kab. Lumajang
+SMAN DARUSSHOLAH SINGOJURUH	20525601	SMA	Kab. Banyuwangi
+SMAN GLENMORE	20525857	SMA	Kab. Banyuwangi
+SMAN GRUJUGAN	20521729	SMA	Kab. Bondowoso
+SMAN JENGGAWAH	20549657	SMA	Kab. Jember
+SMAN KALISAT	20523823	SMA	Kab. Jember
+SMAN KLAKAH	20521445	SMA	Kab. Lumajang
+SMAN MUMBULSARI	20523846	SMA	Kab. Jember
+SMAN OLAH RAGA SIDOARJO	20501699	SMA	Kab. Sidoarjo
+SMAN PAKUSARI	20549350	SMA	Kab. Jember
+SMAN PESANGGARAN	20525859	SMA	Kab. Banyuwangi
+SMAN PILANGKENCENG	20507731	SMA	Kab. Madiun
+SMAN PLUS SUKOWONO	20523829	SMA	Kab. Jember
+SMAN PUNUNG	20511005	SMA	Kab. Pacitan
+SMAN PURWOHARJO	20525860	SMA	Kab. Banyuwangi
+SMAN RAMBIPUJI	20523824	SMA	Kab. Jember
+SMAN SENDURO	20539851	SMA	Kab. Lumajang
+SMAN SRONO	20525873	SMA	Kab. Banyuwangi
+SMAN TAMANAN	20521708	SMA	Kab. Bondowoso
+SMAN TULAKAN	20511003	SMA	Kab. Pacitan
+SMAN UMBULSARI	20523830	SMA	Kab. Jember
+SMK N 2 SUDIMORO	20576132	SMK	Kab. Pacitan
+SMK N KEBONAGUNG	20510920	SMK	Kab. Pacitan
+SMK NEGERI 1 ARJASA	69970699	SMK	Kab. Sumenep
+SMK NEGERI 1 AROSBAYA BANGKALAN	20531225	SMK	Kab. Bangkalan
+SMK NEGERI 1 BAGOR NGANJUK	20538340	SMK	Kab. Nganjuk
+SMK NEGERI 1 BANGKALAN	20531224	SMK	Kab. Bangkalan
+SMK NEGERI 1 BANYUANYAR	20562087	SMK	Kab. Probolinggo
+SMK NEGERI 1 BLEGA BANGKALAN	20570236	SMK	Kab. Bangkalan
+SMK NEGERI 1 BRONDONG	20506246	SMK	Kab. Lamongan
+SMK NEGERI 1 DRINGU	69878017	SMK	Kab. Probolinggo
+SMK NEGERI 1 GONDANG NGANJUK	20513253	SMK	Kab. Nganjuk
+SMK NEGERI 1 GROGOL KABUPATEN KEDIRI	69765030	SMK	Kab. Kediri
+SMK NEGERI 1 JOMBANG	20503375	SMK	Kab. Jombang
+SMK NEGERI 1 KALIANGET SUMENEP	20529957	SMK	Kab. Sumenep
+SMK NEGERI 1 KALITENGAH LAMONGAN	20506248	SMK	Kab. Lamongan
+SMK NEGERI 1 KAMAL BANGKALAN	20570323	SMK	Kab. Bangkalan
+SMK NEGERI 1 KERTOSONO NGANJUK	20538341	SMK	Kab. Nganjuk
+SMK NEGERI 1 KOTA KEDIRI	20534398	SMK	Kota Kediri
+SMK NEGERI 1 KRAS KABUPATEN KEDIRI	69775452	SMK	Kab. Kediri
+SMK NEGERI 1 KWANYAR BANGKALAN	20570371	SMK	Kab. Bangkalan
+SMK NEGERI 1 LABANG BANGKALAN	20549633	SMK	Kab. Bangkalan
+SMK NEGERI 1 LAMONGAN	20506249	SMK	Kab. Lamongan
+SMK NEGERI 1 LENGKONG NGANJUK	20554405	SMK	Kab. Nganjuk
+SMK NEGERI 1 LUMBANG	69954697	SMK	Kab. Probolinggo
+SMK NEGERI 1 MEJAYAN KABUPATEN MADIUN	69816292	SMK	Kab. Madiun
+SMK NEGERI 1 NGANJUK	20538342	SMK	Kab. Nganjuk
+SMK NEGERI 1 NGASEM KABUPATEN KEDIRI	20558812	SMK	Kab. Kediri
+SMK NEGERI 1 PAGERWOJO	20547845	SMK	Kab. Tulungagung
+SMK NEGERI 1 PANGGUL	69972067	SMK	Kab. Trenggalek
+SMK NEGERI 1 PASEAN PAMEKASAN	20574707	SMK	Kab. Pamekasan
+SMK NEGERI 1 PASURUAN	20535468	SMK	Kota Pasuruan
+SMK NEGERI 1 PLOSOKLATEN KABUPATEN KEDIRI	20511947	SMK	Kab. Kediri
+SMK NEGERI 1 POGALAN	20542523	SMK	Kab. Trenggalek
+SMK NEGERI 1 PURWOASRI KABUPATEN KEDIRI	69765029	SMK	Kab. Kediri
+SMK NEGERI 1 REJOTANGAN	20554703	SMK	Kab. Tulungagung
+SMK NEGERI 1 SAMBENG LAMONGAN	20554339	SMK	Kab. Lamongan
+SMK NEGERI 1 SARIREJO	20506250	SMK	Kab. Lamongan
+SMK NEGERI 1 SEMEN KABUPATEN KEDIRI	69765031	SMK	Kab. Kediri
+SMK NEGERI 1 SEPULUH BANGKALAN	20555110	SMK	Kab. Bangkalan
+SMK NEGERI 1 SUDIMORO	20570687	SMK	Kab. Pacitan
+SMK NEGERI 1 SURUH	20554366	SMK	Kab. Trenggalek
+SMK NEGERI 1 TANJUNGANOM NGANJUK	20571770	SMK	Kab. Nganjuk
+SMK NEGERI 1 TANJUNGBUMI BANGKALAN	69733900	SMK	Kab. Bangkalan
+SMK NEGERI 1 TLANAKAN PAMEKASAN	20577811	SMK	Kab. Pamekasan
+SMK NEGERI 1 TRENGGALEK	20542524	SMK	Kab. Trenggalek
+SMK NEGERI 1 WATULIMO	20542516	SMK	Kab. Trenggalek
+SMK NEGERI 12 SURABAYA	20532210	SMK	Kota Surabaya
+SMK NEGERI 13 SURABAYA	69989459	SMK	Kota Surabaya
+SMK NEGERI 2 BAGOR NGANJUK	69727424	SMK	Kab. Nganjuk
+SMK NEGERI 2 BANGKALAN	20531223	SMK	Kab. Bangkalan
+SMK NEGERI 2 JOMBANG	20503373	SMK	Kab. Jombang
+SMK NEGERI 2 KOTA KEDIRI	20534408	SMK	Kota Kediri
+SMK NEGERI 2 LAMONGAN	20554338	SMK	Kab. Lamongan
+SMK NEGERI 2 MOJOKERTO	69786498	SMK	Kota Mojokerto
+SMK NEGERI 2 NGANJUK	20538343	SMK	Kab. Nganjuk
+SMK NEGERI 2 PASURUAN	20535473	SMK	Kota Pasuruan
+SMK NEGERI 2 TEGALSARI	69921069	SMK	Kab. Banyuwangi
+SMK NEGERI 2 TRENGGALEK	20542517	SMK	Kab. Trenggalek
+SMK NEGERI 3 BANGKALAN	20570399	SMK	Kab. Bangkalan
+SMK NEGERI 3 BOJONEGORO	20541266	SMK	Kab. Bojonegoro
+SMK NEGERI 3 JOMBANG	20503372	SMK	Kab. Jombang
+SMK NEGERI 3 KOTA KEDIRI	20534403	SMK	Kota Kediri
+SMK NEGERI GUDO	20539724	SMK	Kab. Jombang
+SMK NEGERI KABUH	60724968	SMK	Kab. Jombang
+SMK NEGERI KUDU	20503371	SMK	Kab. Jombang
+SMK Negeri Maritim Jawa Timur di Lamongan	70009517	SMK	Kab. Lamongan
+SMK NEGERI MOJOAGUNG	20503374	SMK	Kab. Jombang
+SMK NEGERI REMBANG	20541413	SMK	Kab. Pasuruan
+SMK NEGERI ROWOKANGKUNG	20584034	SMK	Kab. Lumajang
+SMK NEGERI TULAKAN	69787440	SMK	Kab. Pacitan
+SMK NEGERI WONOSALAM	20540314	SMK	Kab. Jombang
+SMK NEGERI WONOSARI	69978683	SMK	Kab. Malang
+SMK PP Negeri 1 TEGALAMPEL	20554341	SMK	Kab. Bondowoso
+SMKN  KALIBARU	20525628	SMK	Kab. Banyuwangi
+SMKN  KARE	20548732	SMK	Kab. Madiun
+SMKN 1 AMPELGADING	69772576	SMK	Kab. Malang
+SMKN 1 BADEGAN	20539063	SMK	Kab. Ponorogo
+SMKN 1 BAKUNG	20514365	SMK	Kab. Blitar
+SMKN 1 BANDUNG	20515441	SMK	Kab. Tulungagung
+SMKN 1 BANGIL	20519278	SMK	Kab. Pasuruan
+SMKN 1 BANYUPUTIH	20554596	SMK	Kab. Situbondo
+SMKN 1 BANYUWANGI	20525590	SMK	Kab. Banyuwangi
+SMKN 1 BATU	20536822	SMK	Kota Batu
+SMKN 1 BAURENO	20541257	SMK	Kab. Bojonegoro
+SMKN 1 BEJI	20541411	SMK	Kab. Pasuruan
+SMKN 1 BENDO MAGETAN	20509295	SMK	Kab. Magetan
+SMKN 1 BLITAR	20535097	SMK	Kota Blitar
+SMKN 1 BOJONEGORO	20541258	SMK	Kab. Bojonegoro
+SMKN 1 BONDOWOSO	20521724	SMK	Kab. Bondowoso
+SMKN 1 BOYOLANGU	20537286	SMK	Kab. Tulungagung
+SMKN 1 BRINGIN	20554787	SMK	Kab. Ngawi
+SMKN 1 BUDURAN SIDOARJO	20501720	SMK	Kab. Sidoarjo
+SMKN 1 CERME GRESIK	20500423	SMK	Kab. Gresik
+SMKN 1 CERMEE	20521721	SMK	Kab. Bondowoso
+SMKN 1 DLANGGU	20502729	SMK	Kab. Mojokerto
+SMKN 1 DOKO	20514364	SMK	Kab. Blitar
+SMKN 1 DONOROJO	20552213	SMK	Kab. Pacitan
+SMKN 1 DRIYOREJO	20570881	SMK	Kab. Gresik
+SMKN 1 DUDUKSAMPEYAN	20570783	SMK	Kab. Gresik
+SMKN 1 GEDANGAN	20570779	SMK	Kab. Malang
+SMKN 1 GEGER	20507715	SMK	Kab. Madiun
+SMKN 1 GEMARANG	20554932	SMK	Kab. Madiun
+SMKN 1 GEMPOL	20542536	SMK	Kab. Pasuruan
+SMKN 1 GENDING	20562152	SMK	Kab. Probolinggo
+SMKN 1 GENENG	20508489	SMK	Kab. Ngawi
+SMKN 1 GERIH	20554957	SMK	Kab. Ngawi
+SMKN 1 GLAGAH	20525627	SMK	Kab. Banyuwangi
+SMKN 1 GRATI	20519220	SMK	Kab. Pasuruan
+SMKN 1 GRUJUGAN	20554160	SMK	Kab. Bondowoso
+SMKN 1 JABON	20570902	SMK	Kab. Sidoarjo
+SMKN 1 JATIREJO	20549436	SMK	Kab. Mojokerto
+SMKN 1 JEMBER	20523734	SMK	Kab. Jember
+SMKN 1 JENANGAN	20510101	SMK	Kab. Ponorogo
+SMKN 1 JETIS	20502731	SMK	Kab. Mojokerto
+SMKN 1 JIWAN	20507699	SMK	Kab. Madiun
+SMKN 1 JRENGIK	69854732	SMK	Kab. Sampang
+SMKN 1 KADEMANGAN	20551747	SMK	Kab. Blitar
+SMKN 1 KALIPURO	20576121	SMK	Kab. Banyuwangi
+SMKN 1 KANOR	20566062	SMK	Kab. Bojonegoro
+SMKN 1 KARANGANYAR	20554788	SMK	Kab. Ngawi
+SMKN 1 KASREMAN	20508490	SMK	Kab. Ngawi
+SMKN 1 KEBONSARI	20507698	SMK	Kab. Madiun
+SMKN 1 KEMLAGI	20549916	SMK	Kab. Mojokerto
+SMKN 1 KENDAL	20554958	SMK	Kab. Ngawi
+SMKN 1 KENDIT	20539364	SMK	Kab. Situbondo
+SMKN 1 KEPANJEN	20564067	SMK	Kab. Malang
+SMKN 1 KLABANG	20554158	SMK	Kab. Bondowoso
+SMKN 1 KOTAANYAR	20562091	SMK	Kab. Probolinggo
+SMKN 1 KRAKSAAN	20546536	SMK	Kab. Probolinggo
+SMKN 1 LUMAJANG	20521449	SMK	Kab. Lumajang
+SMKN 1 MADIUN	20534179	SMK	Kota Madiun
+SMKN 1 MAESAN	20521706	SMK	Kab. Bondowoso
+SMKN 1 MAGETAN	20509294	SMK	Kab. Magetan
+SMKN 1 MALANG	20533813	SMK	Kota Malang
+SMKN 1 MLARAK	20510155	SMK	Kab. Ponorogo
+SMKN 1 MOJOANYAR	20570622	SMK	Kab. Mojokerto
+SMKN 1 MOJOKERTO	20534751	SMK	Kota Mojokerto
+SMKN 1 NAWANGAN	20511013	SMK	Kab. Pacitan
+SMKN 1 NGAWI	20508468	SMK	Kab. Ngawi
+SMKN 1 NGLEGOK	20557276	SMK	Kab. Blitar
+SMKN 1 NGRAYUN	69954176	SMK	Kab. Ponorogo
+SMKN 1 NGULING	20519164	SMK	Kab. Pasuruan
+SMKN 1 OMBEN	69854733	SMK	Kab. Sampang
+SMKN 1 PACITAN	20511014	SMK	Kab. Pacitan
+SMKN 1 PAKEM	20553972	SMK	Kab. Bondowoso
+SMKN 1 PAKONG	20555438	SMK	Kab. Pamekasan
+SMKN 1 PAMEKASAN	20527173	SMK	Kab. Pamekasan
+SMKN 1 PANGGUNGREJO BLITAR	20551723	SMK	Kab. Blitar
+SMKN 1 PANJI SITUBONDO	20522636	SMK	Kab. Situbondo
+SMKN 1 PARON	20554785	SMK	Kab. Ngawi
+SMKN 1 PITU	20554786	SMK	Kab. Ngawi
+SMKN 1 PONOROGO	20510100	SMK	Kab. Ponorogo
+SMKN 1 PRAJEKAN	20521705	SMK	Kab. Bondowoso
+SMKN 1 PROBOLINGGO	20536290	SMK	Kota Probolinggo
+SMKN 1 PROPPO	20574708	SMK	Kab. Pamekasan
+SMKN 1 PUJER	20554161	SMK	Kab. Bondowoso
+SMKN 1 PUJON	20549216	SMK	Kab. Malang
+SMKN 1 PUNGGING	20502706	SMK	Kab. Mojokerto
+SMKN 1 PURWOSARI	20519149	SMK	Kab. Pasuruan
+SMKN 1 ROBATAL	20566348	SMK	Kab. Sampang
+SMKN 1 SAMPANG	20528658	SMK	Kab. Sampang
+SMKN 1 SAWOO	20510099	SMK	Kab. Ponorogo
+SMKN 1 SEMPOL	69756190	SMK	Kab. Bondowoso
+SMKN 1 SIDAYU GRESIK	20500412	SMK	Kab. Gresik
+SMKN 1 SIDOARJO	20501715	SMK	Kab. Sidoarjo
+SMKN 1 SINE	20554956	SMK	Kab. Ngawi
+SMKN 1 SINGGAHAN	20547832	SMK	Kab. Tuban
+SMKN 1 SINGOSARI	20517766	SMK	Kab. Malang
+SMKN 1 SITUBONDO	20539365	SMK	Kab. Situbondo
+SMKN 1 SLAHUNG	20549448	SMK	Kab. Ponorogo
+SMKN 1 SOOKO	20510148	SMK	Kab. Ponorogo
+SMKN 1 SOOKO MOJOKERTO	20502730	SMK	Kab. Mojokerto
+SMKN 1 SUBOH SITUBONDO	20522644	SMK	Kab. Situbondo
+SMKN 1 SUKOREJO	20519147	SMK	Kab. Pasuruan
+SMKN 1 SUMBER	20562212	SMK	Kab. Probolinggo
+SMKN 1 SUMBERASIH	20554925	SMK	Kab. Probolinggo
+SMKN 1 SUMBERWRINGIN	20521716	SMK	Kab. Bondowoso
+SMKN 1 SUMENEP	20529956	SMK	Kab. Sumenep
+SMKN 1 SURABAYA	20532205	SMK	Kota Surabaya
+SMKN 1 TAMANAN	20521707	SMK	Kab. Bondowoso
+SMKN 1 TAMBELANGAN	20549264	SMK	Kab. Sampang
+SMKN 1 TAPEN	20554159	SMK	Kab. Bondowoso
+SMKN 1 TEGALSARI	20540177	SMK	Kab. Banyuwangi
+SMKN 1 TEKUNG	20521450	SMK	Kab. Lumajang
+SMKN 1 TEMPEH	20521451	SMK	Kab. Lumajang
+SMKN 1 TLOGOSARI	20521717	SMK	Kab. Bondowoso
+SMKN 1 TROWULAN	20563907	SMK	Kab. Mojokerto
+SMKN 1 TUBAN	20505026	SMK	Kab. Tuban
+SMKN 1 TULUNGAGUNG	20566440	SMK	Kab. Tulungagung
+SMKN 1 TUREN	20517767	SMK	Kab. Malang
+SMKN 1 UDANAWU	20551726	SMK	Kab. Blitar
+SMKN 1 WONOASRI	20507713	SMK	Kab. Madiun
+SMKN 1 WONOMERTO	20562077	SMK	Kab. Probolinggo
+SMKN 1 WONOREJO	20541414	SMK	Kab. Pasuruan
+SMKN 1 WRINGIN	20521720	SMK	Kab. Bondowoso
+SMKN 10 MALANG	20539749	SMK	Kota Malang
+SMKN 10 SURABAYA	20532204	SMK	Kota Surabaya
+SMKN 11 MALANG	20548806	SMK	Kota Malang
+SMKN 12 MALANG	20548807	SMK	Kota Malang
+SMKN 13 MALANG	69758447	SMK	Kota Malang
+SMKN 2 BATU	20536826	SMK	Kota Batu
+SMKN 2 BLITAR	20535098	SMK	Kota Blitar
+SMKN 2 BOJONEGORO	20504482	SMK	Kab. Bojonegoro
+SMKN 2 BONDOWOSO	20521723	SMK	Kab. Bondowoso
+SMKN 2 BOYOLANGU	20548745	SMK	Kab. Tulungagung
+SMKN 2 BUDURAN	20501695	SMK	Kab. Sidoarjo
+SMKN 2 DONOROJO	20574705	SMK	Kab. Pacitan
+SMKN 2 JEMBER	20523756	SMK	Kab. Jember
+SMKN 2 JIWAN	20507705	SMK	Kab. Madiun
+SMKN 2 KRAKSAAN	20546537	SMK	Kab. Probolinggo
+SMKN 2 LUMAJANG	20521463	SMK	Kab. Lumajang
+SMKN 2 MADIUN	20534178	SMK	Kota Madiun
+SMKN 2 MAGETAN	20537499	SMK	Kab. Magetan
+SMKN 2 MALANG	20533814	SMK	Kota Malang
+SMKN 2 NAWANGAN	20576130	SMK	Kab. Pacitan
+SMKN 2 NGAWI	20508467	SMK	Kab. Ngawi
+SMKN 2 PACITAN	20511016	SMK	Kab. Pacitan
+SMKN 2 PAMEKASAN	20527174	SMK	Kab. Pamekasan
+SMKN 2 PONOROGO	20510098	SMK	Kab. Ponorogo
+SMKN 2 PROBOLINGGO	20536289	SMK	Kota Probolinggo
+SMKN 2 SAMPANG	20574844	SMK	Kab. Sampang
+SMKN 2 SINGOSARI	20566286	SMK	Kab. Malang
+SMKN 2 SITUBONDO	20539366	SMK	Kab. Situbondo
+SMKN 2 SUKOREJO	20570160	SMK	Kab. Pasuruan
+SMKN 2 SURABAYA	20532203	SMK	Kota Surabaya
+SMKN 2 TUBAN	20505025	SMK	Kab. Tuban
+SMKN 2 TULUNGAGUNG	69775580	SMK	Kab. Tulungagung
+SMKN 2 TUREN	20549215	SMK	Kab. Malang
+SMKN 3 BATU	20536827	SMK	Kota Batu
+SMKN 3 BLITAR	20535099	SMK	Kota Blitar
+SMKN 3 BONDOWOSO	20521722	SMK	Kab. Bondowoso
+SMKN 3 BOYOLANGU	20515449	SMK	Kab. Tulungagung
+SMKN 3 BUDURAN SIDOARJO	20501714	SMK	Kab. Sidoarjo
+SMKN 3 JEMBER	20523754	SMK	Kab. Jember
+SMKN 3 MADIUN	20534177	SMK	Kota Madiun
+SMKN 3 MALANG	20533815	SMK	Kota Malang
+SMKN 3 PACITAN	20511015	SMK	Kab. Pacitan
+SMKN 3 PAMEKASAN	20527175	SMK	Kab. Pamekasan
+SMKN 3 PROBOLINGGO	20536277	SMK	Kota Probolinggo
+SMKN 3 SAMPANG	20579496	SMK	Kab. Sampang
+SMKN 3 SURABAYA	20532195	SMK	Kota Surabaya
+SMKN 3 TUBAN	20546979	SMK	Kab. Tuban
+SMKN 4 BOJONEGORO	20541267	SMK	Kab. Bojonegoro
+SMKN 4 BONDOWOSO	69752453	SMK	Kab. Bondowoso
+SMKN 4 JEMBER	20523749	SMK	Kab. Jember
+SMKN 4 MADIUN	20534176	SMK	Kota Madiun
+SMKN 4 MALANG	20533816	SMK	Kota Malang
+SMKN 4 PROBOLINGGO	20546877	SMK	Kota Probolinggo
+SMKN 4 SURABAYA	20532196	SMK	Kota Surabaya
+SMKN 5 BOJONEGORO	69913857	SMK	Kab. Bojonegoro
+SMKN 5 JEMBER	20523760	SMK	Kab. Jember
+SMKN 5 MADIUN	20534175	SMK	Kota Madiun
+SMKN 5 MALANG	20533817	SMK	Kota Malang
+SMKN 5 SURABAYA	20532211	SMK	Kota Surabaya
+SMKN 6 JEMBER	20523849	SMK	Kab. Jember
+SMKN 6 MALANG	20533818	SMK	Kota Malang
+SMKN 6 SURABAYA	20532212	SMK	Kota Surabaya
+SMKN 7 JEMBER	20554848	SMK	Kab. Jember
+SMKN 7 MALANG	20533819	SMK	Kota Malang
+SMKN 7 SURABAYA	20532197	SMK	Kota Surabaya
+SMKN 8 JEMBER	20554690	SMK	Kab. Jember
+SMKN 8 MALANG	20539750	SMK	Kota Malang
+SMKN 8 SURABAYA	20532198	SMK	Kota Surabaya
+SMKN 9 MALANG	20539751	SMK	Kota Malang
+SMKN BANDAR	20554534	SMK	Kab. Pacitan
+SMKN DANDER	20541259	SMK	Kab. Bojonegoro
+SMKN DARUL ULUM MUNCAR	20525629	SMK	Kab. Banyuwangi
+SMKN IHYA ULUMMUDIN SINGOJURUH	20525589	SMK	Kab. Banyuwangi
+SMKN JATIROGO	20505024	SMK	Kab. Tuban
+SMKN KARTOHARJO	20537501	SMK	Kab. Magetan
+SMKN KASIMAN	20541260	SMK	Kab. Bojonegoro
+SMKN KLAKAH	20521464	SMK	Kab. Lumajang
+SMKN MARGOMULYO	69757474	SMK	Kab. Bojonegoro
+SMKN NGADIROJO	20511001	SMK	Kab. Pacitan
+SMKN NGAMBON	20541261	SMK	Kab. Bojonegoro
+SMKN NGASEM	20541262	SMK	Kab. Bojonegoro
+SMKN NGRAHO	20541263	SMK	Kab. Bojonegoro
+SMKN PALANG	20554903	SMK	Kab. Tuban
+SMKN PASIRIAN	20521455	SMK	Kab. Lumajang
+SMKN PONCOL	20537498	SMK	Kab. Magetan
+SMKN PRIGEN	20541412	SMK	Kab. Pasuruan
+SMKN PRINGKUKU	20574730	SMK	Kab. Pacitan
+SMKN PURWOSARI	20541264	SMK	Kab. Bojonegoro
+SMKN PUSPO PASURUAN	20519148	SMK	Kab. Pasuruan
+SMKN RENGEL	20546981	SMK	Kab. Tuban
+SMKN SEKAR	20554931	SMK	Kab. Bojonegoro
+SMKN SENDURO	20566398	SMK	Kab. Lumajang
+SMKN SUGIHWARAS	20541265	SMK	Kab. Bojonegoro
+SMKN SUKAPURA	20577732	SMK	Kab. Probolinggo
+SMKN SUMBERREJO	20573249	SMK	Kab. Bojonegoro
+SMKN TAKERAN	20509347	SMK	Kab. Magetan
+SMKN TAMBAKBOYO	20547267	SMK	Kab. Tuban
+SMKN TEMAYANG	20504483	SMK	Kab. Bojonegoro
+SMKN TEMPURSARI	20521452	SMK	Kab. Lumajang
+SMKN TRUCUK	69964178	SMK	Kab. Bojonegoro
+SMKN TUTUR PASURUAN	20519146	SMK	Kab. Pasuruan
+SMKN WIDANG	20552240	SMK	Kab. Tuban
+SMKN WINONGAN	20519145	SMK	Kab. Pasuruan
+SMKN WONGSOREJO	20525591	SMK	Kab. Banyuwangi`;
+
+        // Parser Data Sekolah
+        function parseSchools() {
+            return RAW_SCHOOL_DATA.split('\n')
+                .map(line => {
+                    const parts = line.split('\t');
+                    if (parts.length >= 4) {
+                        return {
+                            nama: parts[0].trim(),
+                            npsn: parts[1].trim(),
+                            jenjang: parts[2].trim(),
+                            kabupaten: parts[3].trim().toUpperCase()
+                        };
+                    }
+                    return null;
+                })
+                .filter(Boolean);
+        }
+
+        const SCHOOL_LIST = parseSchools();
+
+        // --- STATE & DOM ELEMENTS ---
+        const form = document.getElementById('monitoring-form');
+        const cabangSelect = document.getElementById('cabang');
+        const kabSelect = document.getElementById('kabupaten');
+        const sekolahSelect = document.getElementById('sekolah');
+        const smpInput = document.getElementById('smp');
+        
+        const uploadSection = document.getElementById('upload-section');
+        const pdfInput = document.getElementById('pdf-input');
+        const imgInput = document.getElementById('img-input');
+        const pdfListElem = document.getElementById('pdf-list');
+        const imgListElem = document.getElementById('img-list');
+        
+        const errorContainer = document.getElementById('error-container');
+        const errorMsg = document.getElementById('error-msg');
+        const successContainer = document.getElementById('success-container');
+        const successMsg = document.getElementById('success-msg');
+
+        let pdfFiles = [];
+        let imgFiles = [];
+        let submittedSmps = [];
+
+        // --- INIT ---
+        Object.keys(CABANG_DINAS).forEach(cab => {
+            const opt = document.createElement('option');
+            opt.value = cab;
+            opt.textContent = cab;
+            cabangSelect.appendChild(opt);
+        });
+
+        // --- EVENT LISTENERS ---
+        cabangSelect.addEventListener('change', (e) => {
+            const cabang = e.target.value;
+            
+            // Reset Kabupaten & Sekolah
+            kabSelect.innerHTML = '<option value="">-- Pilih Kabupaten/Kota --</option>';
+            sekolahSelect.innerHTML = '<option value="">-- Pilih SMA/SMK Negeri --</option>';
+            sekolahSelect.disabled = true;
+            checkUploadSectionVisibility();
+
+            if (cabang) {
+                kabSelect.disabled = false;
+                const kabs = CABANG_DINAS[cabang];
+                kabs.forEach(kab => {
+                    const opt = document.createElement('option');
+                    opt.value = kab;
+                    opt.textContent = kab;
+                    kabSelect.appendChild(opt);
+                });
+            } else {
+                kabSelect.disabled = true;
+            }
+        });
+
+        kabSelect.addEventListener('change', (e) => {
+            const kab = e.target.value;
+            
+            // Reset Sekolah
+            sekolahSelect.innerHTML = '<option value="">-- Pilih SMA/SMK Negeri --</option>';
+            checkUploadSectionVisibility();
+
+            if (kab) {
+                sekolahSelect.disabled = false;
+                const schools = SCHOOL_LIST.filter(s => s.kabupaten === kab);
+                schools.forEach((s, index) => {
+                    const opt = document.createElement('option');
+                    opt.value = s.nama;
+                    opt.textContent = s.nama;
+                    sekolahSelect.appendChild(opt);
+                });
+            } else {
+                sekolahSelect.disabled = true;
+            }
+        });
+
+        sekolahSelect.addEventListener('change', checkUploadSectionVisibility);
+
+        function checkUploadSectionVisibility() {
+            if (cabangSelect.value && kabSelect.value && sekolahSelect.value) {
+                uploadSection.classList.remove('hidden');
+            } else {
+                uploadSection.classList.add('hidden');
+            }
+        }
+
+        // --- FILE UPLOAD LOGIC ---
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorContainer.classList.remove('hidden');
+            successContainer.classList.add('hidden');
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSuccess(msg) {
+            successMsg.textContent = msg;
+            successContainer.classList.remove('hidden');
+            errorContainer.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderPdfList() {
+            pdfListElem.innerHTML = '';
+            pdfFiles.forEach((file, index) => {
+                const li = document.createElement('li');
+                li.className = "flex items-center justify-between bg-blue-50 p-2 rounded text-sm text-blue-800";
+                li.innerHTML = `
+                    <span class="truncate max-w-[200px]">${file.name}</span>
+                    <button type="button" class="text-red-500 hover:text-red-700" onclick="removePdf(${index})">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                `;
+                pdfListElem.appendChild(li);
+            });
+            lucide.createIcons();
+            pdfInput.disabled = pdfFiles.length >= 3;
+        }
+
+        function renderImgList() {
+            imgListElem.innerHTML = '';
+            imgFiles.forEach((file, index) => {
+                const li = document.createElement('li');
+                li.className = "flex items-center justify-between bg-blue-50 p-2 rounded text-sm text-blue-800";
+                li.innerHTML = `
+                    <span class="truncate max-w-[200px]">${file.name}</span>
+                    <button type="button" class="text-red-500 hover:text-red-700" onclick="removeImg(${index})">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                `;
+                imgListElem.appendChild(li);
+            });
+            lucide.createIcons();
+            imgInput.disabled = imgFiles.length >= 4;
+        }
+
+        window.removePdf = function(index) {
+            pdfFiles.splice(index, 1);
+            renderPdfList();
+        };
+
+        window.removeImg = function(index) {
+            imgFiles.splice(index, 1);
+            renderImgList();
+        };
+
+        pdfInput.addEventListener('change', (e) => {
+            errorContainer.classList.add('hidden');
+            const files = Array.from(e.target.files);
+            
+            if (pdfFiles.length + files.length > 3) {
+                showError('Maksimal upload 3 file PDF bukti daftar hadir.');
+                pdfInput.value = '';
+                return;
+            }
+
+            const validFiles = files.filter(f => {
+                if (f.type !== 'application/pdf') {
+                    showError('Hanya file PDF yang diperbolehkan untuk daftar hadir.');
+                    return false;
+                }
+                if (f.size > 3 * 1024 * 1024) {
+                    showError(`Ukuran file ${f.name} melebihi 3MB.`);
+                    return false;
+                }
+                return true;
+            });
+
+            pdfFiles = [...pdfFiles, ...validFiles];
+            renderPdfList();
+            pdfInput.value = ''; // Reset input agar bisa pilih file yg sama lagi klo diremove
+        });
+
+        imgInput.addEventListener('change', (e) => {
+            errorContainer.classList.add('hidden');
+            const files = Array.from(e.target.files);
+            
+            if (imgFiles.length + files.length > 4) {
+                showError('Maksimal upload 4 file JPG/PNG bukti dokumentasi.');
+                imgInput.value = '';
+                return;
+            }
+
+            const validFiles = files.filter(f => {
+                if (!['image/jpeg', 'image/png', 'image/jpg'].includes(f.type)) {
+                    showError('Hanya file JPG/PNG yang diperbolehkan untuk dokumentasi.');
+                    return false;
+                }
+                if (f.size > 2 * 1024 * 1024) {
+                    showError(`Ukuran file ${f.name} melebihi 2MB.`);
+                    return false;
+                }
+                return true;
+            });
+
+            imgFiles = [...imgFiles, ...validFiles];
+            renderImgList();
+            imgInput.value = '';
+        });
+
+        // --- SUBMISSION LOGIC ---
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorContainer.classList.add('hidden');
+            successContainer.classList.add('hidden');
+
+            const smpVal = smpInput.value;
+
+            // 1. Validasi Input Dasar
+            if (!cabangSelect.value || !kabSelect.value || !sekolahSelect.value || !smpVal) {
+                showError('Mohon lengkapi semua kolom isian data wilayah dan sekolah.');
+                return;
+            }
+
+            if (pdfFiles.length === 0) {
+                showError('Mohon upload minimal 1 bukti daftar hadir (PDF).');
+                return;
+            }
+
+            if (imgFiles.length === 0) {
+                showError('Mohon upload minimal 1 bukti dokumentasi (JPG/PNG).');
+                return;
+            }
+
+            // 2. Validasi Duplikasi SMP (Case Insensitive)
+            const normalizedSmpName = smpVal.trim().toLowerCase();
+            if (submittedSmps.includes(normalizedSmpName)) {
+                showError(`Sekolah "${smpVal.toUpperCase()}" sudah dilaporkan sebelumnya. Pengisian hanya dapat dilakukan satu kali untuk SMP/MTs yang sama.`);
+                return;
+            }
+
+            // Tampilkan UI Loading
+            const submitBtn = document.getElementById('submit-btn');
+            const originalBtnHtml = submitBtn.innerHTML;
+            submitBtn.innerHTML = `
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Mengirim Data...
+            `;
+            submitBtn.disabled = true;
+            submitBtn.classList.add('cursor-not-allowed', 'opacity-70');
+
+            try {
+                // Konversi semua file ke format Base64 secara paralel
+                const pdfBase64Array = await Promise.all(pdfFiles.map(f => getBase64(f)));
+                const imgBase64Array = await Promise.all(imgFiles.map(f => getBase64(f)));
+
+                // Buat paket data untuk dikirim (Payload)
+                const payload = {
+                    cabang: cabangSelect.value,
+                    kabupaten: kabSelect.value,
+                    sekolah: sekolahSelect.value,
+                    smp: smpVal,
+                    pdfs: pdfBase64Array,
+                    imgs: imgBase64Array
+                };
+
+                // Kirim ke server (Google Apps Script)
+                if (GOOGLE_SCRIPT_URL !== 'MASUKKAN_URL_WEB_APP_APPS_SCRIPT_DISINI') {
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        headers: {
+                            // Menggunakan text/plain agar browser tidak mengirim preflight OPTIONS yang membingungkan Apps Script
+                            'Content-Type': 'text/plain;charset=utf-8', 
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.result !== 'success') {
+                        throw new Error(result.message || 'Gagal menyimpan ke Google Spreadsheet.');
+                    }
+                } else {
+                    console.warn("Peringatan: URL Apps Script belum dipasang! Aplikasi hanya memberikan simulasi sukses.");
+                    // Jeda simulasi agar efek loading terlihat
+                    await new Promise(r => setTimeout(r, 2000));
+                }
+
+                // 3. Eksekusi Submit Berhasil
+                submittedSmps.push(normalizedSmpName);
+                showSuccess(`Laporan Sosialisasi di ${smpVal.toUpperCase()} berhasil dikirim dan tersimpan di database!`);
+                
+                // Reset Form
+                cabangSelect.value = '';
+                kabSelect.innerHTML = '<option value="">-- Pilih Kabupaten/Kota --</option>';
+                kabSelect.disabled = true;
+                sekolahSelect.innerHTML = '<option value="">-- Pilih SMA/SMK Negeri --</option>';
+                sekolahSelect.disabled = true;
+                smpInput.value = '';
+                pdfFiles = [];
+                imgFiles = [];
+                renderPdfList();
+                renderImgList();
+                checkUploadSectionVisibility();
+
+                // Auto-hide pesan sukses setelah 8 detik
+                setTimeout(() => {
+                    successContainer.classList.add('hidden');
+                }, 8000);
+
+            } catch (error) {
+                showError('Terjadi kesalahan saat mengirim data: ' + error.message);
+            } finally {
+                // Kembalikan Tombol ke Semula
+                submitBtn.innerHTML = originalBtnHtml;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('cursor-not-allowed', 'opacity-70');
+            }
+        });
+
+    </script>
+</body>
+</html>
