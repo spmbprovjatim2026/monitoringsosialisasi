@@ -90,6 +90,12 @@
                     <p class="text-xs text-gray-500 mb-3">Jumlah peserta yang hadir dalam kegiatan sosialisasi</p>
                     <input id="jumlah-peserta" type="number" min="1" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Contoh: 150">
                 </div>
+
+                <div class="mt-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Pilihan Tanggal</label>
+                    <p class="text-xs text-gray-500 mb-3">Tanggal dilaksanakannya kegiatan sosialisasi</p>
+                    <input id="tanggal-pelaksanaan" type="date" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-gray-700">
+                </div>
             </div>
 
             <!-- Section 3: Upload Bukti -->
@@ -147,7 +153,7 @@
         // =======================================================================
         // SETUP: GANTI STRING DI BAWAH INI DENGAN URL WEB APP GOOGLE APPS SCRIPT ANDA
         // =======================================================================
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwklur5LIODQ_k1B_zsxwwM9rc-DKcJ1t0_ePySF9olL_6iDJ8rwF5t0-KAFPRo95We/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwMkaz8rHoEFaHekLC3g15C33m6RxrUj68Hm5TW8wYV13-PbH-HRSbrcWmRlfS6FlAPOA/exec';
 
 
         // Helper: Konversi file menjadi format teks Base64 untuk dikirim via JSON
@@ -947,6 +953,7 @@ SMKN WONGSOREJO	20525591	SMK	Kab. Banyuwangi`;
         const sekolahSelect = document.getElementById('sekolah');
         const smpInput = document.getElementById('smp');
         const jumlahPesertaInput = document.getElementById('jumlah-peserta');
+        const tanggalInput = document.getElementById('tanggal-pelaksanaan');
         
         const uploadSection = document.getElementById('upload-section');
         const pdfInput = document.getElementById('pdf-input');
@@ -1148,10 +1155,11 @@ SMKN WONGSOREJO	20525591	SMK	Kab. Banyuwangi`;
 
             const smpVal = smpInput.value;
             const jumlahPesertaVal = jumlahPesertaInput.value;
+            const tanggalVal = tanggalInput.value;
 
             // 1. Validasi Input Dasar
-            if (!cabangSelect.value || !kabSelect.value || !sekolahSelect.value || !smpVal || !jumlahPesertaVal) {
-                showError('Mohon lengkapi semua kolom isian data wilayah, sekolah, dan jumlah peserta.');
+            if (!cabangSelect.value || !kabSelect.value || !sekolahSelect.value || !smpVal || !jumlahPesertaVal || !tanggalVal) {
+                showError('Mohon lengkapi semua kolom isian data wilayah, sekolah, jumlah peserta, dan tanggal pelaksanaan.');
                 return;
             }
 
@@ -1197,6 +1205,7 @@ SMKN WONGSOREJO	20525591	SMK	Kab. Banyuwangi`;
                     sekolah: sekolahSelect.value,
                     smp: smpVal,
                     jumlahPeserta: jumlahPesertaVal,
+                    tanggal: tanggalVal,
                     pdfs: pdfBase64Array,
                     imgs: imgBase64Array
                 };
@@ -1235,6 +1244,7 @@ SMKN WONGSOREJO	20525591	SMK	Kab. Banyuwangi`;
                 sekolahSelect.disabled = true;
                 smpInput.value = '';
                 jumlahPesertaInput.value = '';
+                tanggalInput.value = '';
                 pdfFiles = [];
                 imgFiles = [];
                 renderPdfList();
