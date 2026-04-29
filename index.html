@@ -80,11 +80,9 @@
                     <i data-lucide="school" class="text-blue-600"></i> Lokasi Sasaran Sosialisasi
                 </h2>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nama SMP atau MTs Tempat Sosialisasi</label>
-                    <input id="smp" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Contoh: SMP Negeri 1 Surabaya atau MTsN 2 Malang">
-                    <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                        <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Satu SMP/MTs hanya dapat dilaporkan satu kali. Penulisan nama bebas.
-                    </p>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Tempat Sosialisasi</label>
+                    <p class="text-xs text-gray-500 mb-3">tempat dilaksanakan sosialisasi (SMA/SMK asal atau SMP/MTs yang dituju)</p>
+                    <input id="smp" type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="Contoh: SMAN 2 Sampang, SMKN 1 Pogalan, atau SMPN 1 Surabaya">
                 </div>
             </div>
 
@@ -1159,10 +1157,10 @@ SMKN WONGSOREJO	20525591	SMK	Kab. Banyuwangi`;
                 return;
             }
 
-            // 2. Validasi Duplikasi SMP (Case Insensitive)
+            // 2. Validasi Duplikasi Tempat (Case Insensitive)
             const normalizedSmpName = smpVal.trim().toLowerCase();
             if (submittedSmps.includes(normalizedSmpName)) {
-                showError(`Sekolah "${smpVal.toUpperCase()}" sudah dilaporkan sebelumnya. Pengisian hanya dapat dilakukan satu kali untuk SMP/MTs yang sama.`);
+                showError(`Tempat "${smpVal.toUpperCase()}" sudah dilaporkan sebelumnya. Pengisian hanya dapat dilakukan satu kali untuk tempat yang sama.`);
                 return;
             }
 
